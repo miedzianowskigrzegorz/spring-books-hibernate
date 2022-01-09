@@ -5,9 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import pl.gm.model.Book;
-import pl.gm.repository.BookRepository;
+import pl.gm.service.JpaBookService;
 
 import javax.validation.Valid;
 
@@ -18,7 +21,7 @@ import javax.validation.Valid;
 public class BookController {
 
     @Autowired
-    private final BookRepository bookRepository;
+    private final JpaBookService jpaBookService;
 
     @GetMapping("/add")
     public String getForm(Model model) {
@@ -28,12 +31,12 @@ public class BookController {
 
     @GetMapping("/all")
     public String getAllBooks(Model model) {
-        model.addAttribute("books",bookRepository.findAll());
+        model.addAttribute("books",jpaBookService.getBooks());
         return "book/list";
     }
     @GetMapping("/edit/{id}")
     public String getBookEditForm(@PathVariable long id, Model model) {
-        model.addAttribute("book", bookRepository.findById(id));
+        model.addAttribute("book", jpaBookService.get(id));
         return "book/edit";
     }
 
@@ -42,7 +45,7 @@ public class BookController {
         if(bindingResult.hasErrors()) {
             return "book/edit";
         } else {
-            bookRepository.save(book);
+            jpaBookService.update(book);
             return "redirect:/books/all";
         }
     }
@@ -54,7 +57,7 @@ public class BookController {
 
     @GetMapping("/delete/{id}")
     public String removeBook(@PathVariable long id, Model model) {
-        bookRepository.deleteById(id);
+        jpaBookService.delete(id);
         model.addAttribute("bookId", null);
         return "redirect:/books/all";
     }
