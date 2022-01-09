@@ -28,6 +28,15 @@ public class BookController {
         model.addAttribute("book", new Book());
         return "book/form";
     }
+    @PostMapping("/add")
+    public String saveBook(@Valid Book book, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "book/form";
+        } else {
+            jpaBookService.add(book);
+            return "redirect:/books/all";
+        }
+    }
 
     @GetMapping("/all")
     public String getAllBooks(Model model) {
