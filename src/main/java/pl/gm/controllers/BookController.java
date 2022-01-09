@@ -3,7 +3,10 @@ package pl.gm.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.gm.model.Book;
 import pl.gm.repository.BookRepository;
 
 
@@ -14,4 +17,10 @@ public class BookController {
 
     @Autowired
     private final BookRepository bookRepository;
+
+    @GetMapping("/add")
+    public String getForm(Model model) {
+        model.addAttribute("book", new Book());
+        return "book/form";
+    }
 }
