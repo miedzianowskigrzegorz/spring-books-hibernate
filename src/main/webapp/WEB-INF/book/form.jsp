@@ -1,0 +1,54 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: rooveex
+  Date: 12/12/2021
+  Time: 15:16
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ taglib prefix="form"
+           uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html>
+<head>
+    <title>Add book</title>
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<%--@elvariable id="book" type="pl.coderslab.model.Book"--%>
+<form:form method="post" modelAttribute="book">
+    <div>
+        <label>Isbn number:</label>
+        <form:input path="isbn" type="text"/>
+        <form:errors path="isbn" cssClass="error"/>
+    </div>
+    <div>
+        <label>Title:</label>
+        <form:input path="title" type="text"/>
+        <form:errors path="title" cssClass="error"/>
+    </div>
+    <div>
+        <label>Author:</label>
+        <form:input path="author" type="text"/>
+        <form:errors path="author" cssClass="error"/>
+    </div>
+    <div>
+        <label>Publisher:</label>
+        <form:input path="publisher" type="text"/>
+        <form:errors path="publisher" cssClass="error"/>
+    </div>
+    <div>
+        <label>Type:</label>
+        <form:input path="type" type="text"/>
+        <form:errors path="type" cssClass="error"/>
+    </div>
+    <div>
+        <input type="submit" value="Save">
+    </div>
+</form:form>
+</body>
+</html>
