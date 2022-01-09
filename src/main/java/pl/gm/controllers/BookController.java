@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import pl.gm.model.Book;
 import pl.gm.service.JpaBookService;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 
 
@@ -43,6 +44,12 @@ public class BookController {
         model.addAttribute("books",jpaBookService.getBooks());
         return "book/list";
     }
+    @GetMapping("/show/{id}")
+    public String showBook(Model model, @PathVariable long id) {
+        model.addAttribute("book", jpaBookService.get(id).orElseThrow(EntityNotFoundException::new));
+        return "book/show";
+    }
+
     @GetMapping("/edit/{id}")
     public String getBookEditForm(@PathVariable long id, Model model) {
         model.addAttribute("book", jpaBookService.get(id));
