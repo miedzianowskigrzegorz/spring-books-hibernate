@@ -5,12 +5,13 @@
   Time: 15:17
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
 <a href="${pageContext.request.contextPath}/books/add">Add Book</a>
+<a href="${pageContext.request.contextPath}/books/all">Show books</a>
 </body>
 </html>
