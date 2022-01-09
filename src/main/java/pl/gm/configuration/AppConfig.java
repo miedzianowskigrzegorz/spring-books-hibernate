@@ -9,6 +9,7 @@ import org.springframework.orm.jpa.LocalEntityManagerFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleContextResolver;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -24,6 +25,7 @@ import java.util.Locale;
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "pl.gm")
 public class AppConfig implements WebMvcConfigurer {
+
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         registry.jsp("/WEB-INF/", ".jsp");
@@ -40,12 +42,16 @@ public class AppConfig implements WebMvcConfigurer {
         return new LocalValidatorFactoryBean();
     }
 
-
+    @Override
+    public void configureDefaultServletHandling(
+            DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
 
     @Bean(name = "entityManagerFactory")
     public LocalEntityManagerFactoryBean entityManagerFactoryBean() {
         var factoryBean = new LocalEntityManagerFactoryBean();
-        factoryBean.setPersistenceUnitName("bookStorePersistenceUnit");
+        factoryBean.setPersistenceUnitName("workshopBookStorePersistenceUnit");
         return factoryBean;
     }
 
