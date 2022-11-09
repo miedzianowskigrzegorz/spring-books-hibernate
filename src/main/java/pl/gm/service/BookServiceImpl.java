@@ -10,11 +10,11 @@ import java.util.Optional;
 
 @Service
 @Primary
-public class JpaBookService implements BookService {
+public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
 
-    public JpaBookService(BookRepository bookRepository) {
+    public BookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
     @Override

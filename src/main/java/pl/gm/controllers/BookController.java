@@ -1,7 +1,6 @@
 package pl.gm.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.gm.model.Book;
-import pl.gm.service.JpaBookService;
+import pl.gm.service.BookServiceImpl;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
@@ -20,9 +19,7 @@ import javax.validation.Valid;
 @RequestMapping("/books")
 @RequiredArgsConstructor
 public class BookController {
-
-    @Autowired
-    private final JpaBookService jpaBookService;
+    private final BookServiceImpl bookServiceImpl;
 
     @GetMapping("/add")
     public String getForm(Model model) {
@@ -34,25 +31,25 @@ public class BookController {
         if(bindingResult.hasErrors()) {
             return "book/form";
         } else {
-            jpaBookService.add(book);
+            bookServiceImpl.add(book);
             return "redirect:/books/all";
         }
     }
 
     @GetMapping("/all")
     public String getAllBooks(Model model) {
-        model.addAttribute("books",jpaBookService.getBooks());
+        model.addAttribute("books", bookServiceImpl.getBooks());
         return "book/list";
     }
     @GetMapping("/show/{id}")
     public String showBook(Model model, @PathVariable long id) {
-        model.addAttribute("book", jpaBookService.get(id).orElseThrow(EntityNotFoundException::new));
+        model.addAttribute("book", bookServiceImpl.get(id).orElseThrow(EntityNotFoundException::new));
         return "book/show";
     }
 
     @GetMapping("/edit/{id}")
     public String getBookEditForm(@PathVariable long id, Model model) {
-        model.addAttribute("book", jpaBookService.get(id));
+        model.addAttribute("book", bookServiceImpl.get(id));
         return "book/edit";
     }
 
@@ -61,7 +58,7 @@ public class BookController {
         if(bindingResult.hasErrors()) {
             return "book/edit";
         } else {
-            jpaBookService.update(book);
+            bookServiceImpl.update(book);
             return "redirect:/books/all";
         }
     }
@@ -73,7 +70,7 @@ public class BookController {
 
     @GetMapping("/delete/{id}")
     public String removeBook(@PathVariable long id, Model model) {
-        jpaBookService.delete(id);
+        bookServiceImpl.delete(id);
         model.addAttribute("bookId", null);
         return "redirect:/books/all";
     }
